@@ -15,13 +15,14 @@
              gxref-update-db
              gxref-single-update-db
              gxref-set-project-dir)
-  :init
-  (add-hook! :append (c-mode c++-mode)
-    (set! :lookup '(c-mode c++-mode) :xref-backend #'gxref-xref-backend)
-    )
   )
 
 (after! rtags
+  (set! :lookup '(c-mode c++-mode)
+    :definition #'rtags-find-symbol-at-point
+    :references #'rtags-find-references-at-point
+    :xref-backend #'gxref-xref-backend
+    )
   ;; rtags use its own location stack, it should bewrapped
   (defun +lookup*xref-pop-marker-stack (orig-fn)
     (let
