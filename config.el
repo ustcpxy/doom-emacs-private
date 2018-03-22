@@ -1,5 +1,7 @@
 ;;; config.el --- description -*- lexical-binding: t; -*-
 
+(load! +bindings)
+
 (setq doom-theme `doom-molokai)
 
 ;; disable quit confirmation
