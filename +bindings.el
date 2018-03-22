@@ -4,7 +4,7 @@
 ;;
 (map!
  ;; --- Personal vim-esque bindings ------------------
- :m  "gd" #'+lookup/definition
- :m  "gr" #'+lookup/references
+ :nm "gd" #'+lookup/definition
+ :nm "gr" #'+lookup/references
  )
 
