@@ -58,3 +58,33 @@
  ;; plantuml and dot
 (setq plantuml-jar-path (concat (expand-file-name "local/" +private-config-path) "plantuml.jar"))
 (setq org-plantuml-jar-path plantuml-jar-path)
+
+(def-package! winum
+  :config
+  (progn
+    (defun spacemacs//winum-assign-func ()
+      "Custom number assignment for neotree."
+      (when (and (boundp 'neo-buffer-name)
+                 (string= (buffer-name) neo-buffer-name)
+                 ;; in case there are two neotree windows. Example: when
+                 ;; invoking a transient state from neotree window, the new
+                 ;; window will show neotree briefly before displaying the TS,
+                 ;; causing an error message. the error is eliminated by
+                 ;; assigning 0 only to the top-left window
+                 (eq (selected-window) (frame-first-window)))
+        0))
+    (add-to-list 'winum-assign-functions #'spacemacs//winum-assign-func)
+    (setq winum-auto-assign-0-to-minibuffer nil
+          winum-auto-setup-mode-line nil
+          winum-ignored-buffers '(" *which-key*"))
+    (message "load winum")
+    (map!
+     :gnime "M-0" #'winum-select-window-0-or-10
+     :gnime "M-1" #'winum-select-window-1
+     :gnime "M-2" #'winum-select-window-2
+     :gnime "M-3" #'winum-select-window-3
+     :gnime "M-4" #'winum-select-window-4
+     )
+    (winum-mode))
+  )
+

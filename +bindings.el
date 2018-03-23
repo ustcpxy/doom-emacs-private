@@ -19,6 +19,7 @@
    ;; Most commonly used
    :desc "Find file in system"     :n "l" #'counsel-locate
    :desc "Switch buffer"           :n ","   #'switch-to-buffer
+   :desc "Switch last buffer"      :n "TAB"   #'evil-switch-to-windows-last-buffer
    :desc "Jump char"               :n "SPC"   #'avy-goto-word-or-subword-1
    )
  )
