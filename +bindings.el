@@ -4,7 +4,8 @@
 ;;
 (map!
 
- :gnvime "M-;" #'comment-dwim
+ :v "M-;" #'comment-dwim
+ :gnime "M-;" #'comment-line
 
  ;; --- Personal vim-esque bindings ------------------
  :nm "gd" #'+lookup/definition
