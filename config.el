@@ -54,3 +54,7 @@
 (set! :company-backend '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
 (set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
 (set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
+
+ ;; plantuml and dot
+(setq plantuml-jar-path (concat (expand-file-name "local/" +private-config-path) "plantuml.jar"))
+(setq org-plantuml-jar-path plantuml-jar-path)

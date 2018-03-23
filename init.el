@@ -1,9 +1,9 @@
 ;;; init.el -*- lexical-binding: t; -*-
 ;;
 
-(doom! 
-       :private
-       (chinese)
-  (org)
-       )
+(doom!
+ :private
+ (chinese)
+ ;;(org)
+ )
 
