@@ -49,23 +49,23 @@
 
        :completion
        company           ; the ultimate code completion backend
-       ivy               ; a search engine for love and life
       ;helm              ; the *other* search engine for love and life
       ;ido               ; the other *other* search engine...
+       ivy               ; a search engine for love and life
 
        :ui
        doom              ; what makes DOOM look the way it does
        ;; doom-dashboard    ; a nifty splash screen for Emacs
        doom-modeline     ; a snazzy Atom-inspired mode-line
        ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       evil-goggles      ; display visual hints when editing in evil
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        nav-flash         ; blink the current line after jumping
-       evil-goggles      ; display visual hints when editing in evil
-      ;unicode           ; extended unicode support for various languages
+      ;posframe          ; use child frames where possible (Emacs 26+ only)
       ;tabbar            ; FIXME an (incomplete) tab bar for Emacs
+      ;unicode           ; extended unicode support for various languages
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
-      ;posframe          ; use child frames where possible (Emacs 26+ only)
 
        :tools
        dired             ; making dired pretty [functional]
@@ -80,6 +80,7 @@
        neotree           ; a project drawer, like NERDTree for vim
        password-store    ; password manager for nerds
        pdf               ; pdf enhancements
+      ;rgb               ; creating color strings
        rotate-text       ; cycle region at point between text candidates
        term              ; terminals in Emacs
        tmux              ; an API for interacting with tmux
@@ -96,7 +97,7 @@
        ;; elm               ; care for a cup of TEA?
        emacs-lisp        ; drown in parentheses
        ess               ; emacs speaks statistics
-       go                ; the hipster dialect
+       ;; go                ; the hipster dialect
        ;; (haskell +intero) ; a language that's lazier than I am
        hy                ; readability of scheme w/ speed of python
        (java +meghanada) ; the poster child for carpal tunnel syndrome
@@ -117,11 +118,11 @@
        perl              ; write code no one else can comprehend
        php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more
-       purescript        ; javascript, but functional
+       ;; purescript        ; javascript, but functional
        python            ; beautiful is better than ugly
        rest              ; Emacs as a REST client
        ruby              ; 1.step do {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;; rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;; scala             ; java, but good
        sh                ; she sells (ba|z)sh shells on the C xor
        ;; swift             ; who asked for emoji variables?
