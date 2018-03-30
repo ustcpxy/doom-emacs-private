@@ -23,8 +23,6 @@
   ;; TODO only redisplay affect source block
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
-  (print org-directory)
-  (print (concat org-directory "tasks.org"))
   ;; (push `("c" "Calendar" entry (file+headline ,(expand-file-name "tasks.org" +org-dir) "Tasks")
   ;;                "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
   ;;                :empty-lines 1)
@@ -62,71 +60,71 @@
   )
   )
 
-;; ;; TODO: create org-brain workspace for all brain files
-;; ;; create local brain lib
-;; (def-package! org-brain
-;;   :commands org-brain-visualize
-;;   :init
-;;   (setq org-brain-path "~/org/brain")
-;;   (push 'org-agenda-mode evil-snipe-disabled-modes)
-;;   ;; (add-hook 'org-agenda-mode-hook #'(lambda () (evil-vimish-fold-mode -1)))
-;;   (set! :evil-state 'org-brain-visualize-mode 'normal)
+;; TODO: create org-brain workspace for all brain files
+;; create local brain lib
+(def-package! org-brain
+  :commands org-brain-visualize
+  :init
+  (setq org-brain-path "~/pkms/brain")
+  (push 'org-agenda-mode evil-snipe-disabled-modes)
+  ;; (add-hook 'org-agenda-mode-hook #'(lambda () (evil-vimish-fold-mode -1)))
+  (set! :evil-state 'org-brain-visualize-mode 'normal)
 
-;;   :config
-;;   (require 'org)
-;;   (defun org-brain-set-tags (entry)
-;;     "Use `org-set-tags' on headline ENTRY.
-;; If run interactively, get ENTRY from context."
-;;     (interactive (list (org-brain-entry-at-pt)))
-;;     (when (org-brain-filep entry)
-;;       (error "Can only set tags on headline entries"))
-;;     (org-with-point-at (org-brain-entry-marker entry)
-;;       (counsel-org-tag)
-;;       (save-buffer))
-;;     (org-brain--revert-if-visualizing))
+  :config
+  (require 'org)
+  (defun org-brain-set-tags (entry)
+    "Use `org-set-tags' on headline ENTRY.
+If run interactively, get ENTRY from context."
+    (interactive (list (org-brain-entry-at-pt)))
+    (when (org-brain-filep entry)
+      (error "Can only set tags on headline entries"))
+    (org-with-point-at (org-brain-entry-marker entry)
+      (counsel-org-tag)
+      (save-buffer))
+    (org-brain--revert-if-visualizing))
 
-;;   (setq org-id-track-globally t)
-;;   (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-;;   (push '("b" "Brain" plain (function org-brain-goto-end)
-;;           "* %i%?" :empty-lines 1)
-;;         org-capture-templates)
-;;   (setq org-brain-visualize-default-choices 'root
-;;         org-brain-title-max-length 20)
-;;   (set! :popup "^\\*org-brain\\*$" '((vslot . -1) (size . 0.3) (side . left)) '((select . t) (quit) (transient)))
+  (setq org-id-track-globally t)
+  (setq org-id-locations-file "~/.emacs.d/.local/org-id-locations")
+  (push '("b" "Brain" plain (function org-brain-goto-end)
+          "* %i%?" :empty-lines 1)
+        org-capture-templates)
+  (setq org-brain-visualize-default-choices 'root
+        org-brain-title-max-length 20)
+  (set! :popup "^\\*org-brain\\*$" '((vslot . -1) (size . 0.3) (side . left)) '((select . t) (quit) (transient)))
 
-;;   (map!
-;;    (:map org-brain-visualize-mode-map
-;;      :n "a"   #'org-brain-visualize-attach
-;;      :n "b"   #'org-brain-visualize-back
-;;      :n "c"   #'org-brain-add-child
-;;      :n "C"   #'org-brain-remove-child
-;;      :n "p"   #'org-brain-add-parent
-;;      :n "P"   #'org-brain-remove-parent
-;;      :n "f"   #'org-brain-add-friendship
-;;      :n "F"   #'org-brain-remove-friendship
-;;      :n "d"   #'org-brain-delete-entry
-;;      :n "^"   #'revert-buffer
-;;      :n "_"   #'org-brain-new-child
-;;      :n ";"   #'org-brain-set-tags
-;;      :n "j"   #'forward-button
-;;      :n "k"   #'backward-button
-;;      :n "l"   #'org-brain-add-resource
-;;      :n "L"   #'doom/org-brain-add-resource
-;;      :n "t"   #'org-brain-set-title
-;;      :n "$"   #'org-brain-pin
-;;      :n "o"   #'ace-link-woman
-;;      :n "q"   #'org-brain-visualize-quit
-;;      :n "r"   #'org-brain-visualize-random
-;;      :n "R"   #'org-brain-visualize-wander
-;;      :n "g"   #'org-brain-visualize
-;;      :n "G"   #'org-brain-goto
-;;      :n [tab] #'org-brain-goto-current
-;;      :n "m"   #'org-brain-visualize-mind-map
-;;      :n "["   #'org-brain-visualize-add-grandchild
-;;      :n "]"   #'org-brain-visualize-remove-grandchild
-;;      :n "{"   #'org-brain-visualize-add-grandparent
-;;      :n "}"   #'org-brain-visualize-remove-grandparent
-;;      )))
+  (map!
+   (:map org-brain-visualize-mode-map
+     :n "a"   #'org-brain-visualize-attach
+     :n "b"   #'org-brain-visualize-back
+     :n "c"   #'org-brain-add-child
+     :n "C"   #'org-brain-remove-child
+     :n "p"   #'org-brain-add-parent
+     :n "P"   #'org-brain-remove-parent
+     :n "f"   #'org-brain-add-friendship
+     :n "F"   #'org-brain-remove-friendship
+     :n "d"   #'org-brain-delete-entry
+     :n "^"   #'revert-buffer
+     :n "_"   #'org-brain-new-child
+     :n ";"   #'org-brain-set-tags
+     :n "j"   #'forward-button
+     :n "k"   #'backward-button
+     :n "l"   #'org-brain-add-resource
+     :n "L"   #'doom/org-brain-add-resource
+     :n "t"   #'org-brain-set-title
+     :n "$"   #'org-brain-pin
+     :n "o"   #'ace-link-woman
+     :n "q"   #'org-brain-visualize-quit
+     :n "r"   #'org-brain-visualize-random
+     :n "R"   #'org-brain-visualize-wander
+     :n "g"   #'org-brain-visualize
+     :n "G"   #'org-brain-goto
+     :n [tab] #'org-brain-goto-current
+     :n "m"   #'org-brain-visualize-mind-map
+     :n "["   #'org-brain-visualize-add-grandchild
+     :n "]"   #'org-brain-visualize-remove-grandchild
+     :n "{"   #'org-brain-visualize-add-grandparent
+     :n "}"   #'org-brain-visualize-remove-grandparent
+     )))
 
 ;; (def-package! org-web-tools
 ;;   :after org)
