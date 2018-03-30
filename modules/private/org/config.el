@@ -23,6 +23,10 @@
   ;; TODO only redisplay affect source block
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
+  (setq org-todo-keywords
+        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+
   ;; (push `("c" "Calendar" entry (file+headline ,(expand-file-name "tasks.org" +org-dir) "Tasks")
   ;;                "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
   ;;                :empty-lines 1)
