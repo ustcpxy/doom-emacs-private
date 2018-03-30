@@ -355,3 +355,6 @@ If run interactively, get ENTRY from context."
 ;;       (sp-local-pair "\\[" "\\]"
 ;;                      :post-handlers '(sp-latex-insert-spaces-inside-pair)
 ;;                      :unless '(sp-latex-point-after-backslash)))))
+
+(after! evil-org
+  (evil-org-set-key-theme '(navigation insert textobjects todo)))
