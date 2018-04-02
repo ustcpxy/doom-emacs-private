@@ -20,7 +20,7 @@
  :nm "gr" #'+lookup/references
 
  :ne "M-`"   #'swiper
- :nv "M-i"   #'imenu
+ :nv "M-i"   #'counsel-imenu
  :gnime "M-/"   #'counsel-rg
 
  (:leader
