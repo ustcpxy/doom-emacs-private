@@ -362,3 +362,6 @@ If run interactively, get ENTRY from context."
 
 (after! evil-org
   (evil-org-set-key-theme '(navigation insert textobjects todo)))
+
+(def-package! ox-hugo
+  :after ox)
