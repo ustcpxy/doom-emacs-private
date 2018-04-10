@@ -2,6 +2,8 @@
 
 (load! +bindings)
 
+(setq +org-dir "~/pkms/gtd/")
+
 (setq doom-theme `doom-molokai)
 
 ;; disable quit confirmation
@@ -56,7 +58,7 @@
 (set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
 
  ;; plantuml and dot
-(setq plantuml-jar-path (concat (expand-file-name "local/" +private-config-path) "plantuml.jar"))
+(setq plantuml-jar-path (concat (expand-file-name "local/" doom-private-dir) "plantuml.jar"))
 (setq org-plantuml-jar-path plantuml-jar-path)
 
 (def-package! winum
