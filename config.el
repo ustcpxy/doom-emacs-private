@@ -56,6 +56,11 @@
 (set! :company-backend '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
 (set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
 (set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
+(after! cc-mode
+  (set! :company-backend
+        '(c-mode c++-mode objc-mode)
+        '(company-irony-c-headers company-irony company-gtags))
+  )
 
  ;; plantuml and dot
 (setq plantuml-jar-path (concat (expand-file-name "local/" doom-private-dir) "plantuml.jar"))
@@ -90,3 +95,4 @@
     (winum-mode))
   )
 
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
