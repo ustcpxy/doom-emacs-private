@@ -42,6 +42,12 @@
 (set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
 (set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
 (after! cc-mode
+  (set! :lookup '(c-mode c++-mode)
+    ;; :definition #'xref-find-definitions
+    ;; :references #'xref-find-references
+    :xref-backend #'gxref-xref-backend
+    )
+  (setq c-basic-offset 4)
   (set! :company-backend
         '(c-mode c++-mode objc-mode)
         '(company-irony-c-headers company-irony company-gtags))
