@@ -44,7 +44,8 @@
 (after! cc-mode
   (set! :lookup '(c-mode c++-mode) :xref-backend #'gxref-xref-backend)
   (setq c-basic-offset 4)
-  (set! :company-backend '(c-mode c++-mode) 'company-gtags)
+  (c-set-offset 'inclass '+)
+  (set! :company-backend '(c-mode c++-mode) '(company-gtags company-dabbrev-code))
   (add-hook! (c-mode c++-mode) #'doom|disable-line-numbers)
   )
 
