@@ -19,21 +19,6 @@
              gxref-set-project-dir)
   )
 
-(after! rtags
-  (set! :lookup '(c-mode c++-mode)
-    :definition #'rtags-find-symbol-at-point
-    :references #'rtags-find-references-at-point
-    :xref-backend #'gxref-xref-backend
-    )
-  ;; rtags use its own location stack, it should bewrapped
-  (defun +lookup*xref-pop-marker-stack (orig-fn)
-    (let
-      (funcall orig-fn)
-      (ignore-errors (rtags-location-stack-back))
-      )
-    )
-  (advice-add #'xref-pop-marker-stack :around #'+lookup*xref-pop-marker-stack))
-
 ;; *** Company
 (after! company
   (setq company-tooltip-limit 10
