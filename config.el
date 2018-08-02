@@ -151,3 +151,10 @@ found by imenu)."
                 :caller 'counsel-imenu))))
 )
 )
+
+(setq frame-title-format
+      '("" " - "
+        (:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name)) "%b"))))
+
+(setq +doom-modeline-buffer-file-name-style 'file-name)
