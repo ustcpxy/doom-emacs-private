@@ -89,6 +89,21 @@ See `org-capture-templates' for more information."
                    ;; symlink pointing to the actual location of all-posts.org!
                    (file+olp "all-posts.org" "Blog Ideas")
                    (function org-hugo-new-subtree-post-capture-template))))
+
+  (org-add-link-type
+   "color"
+   (lambda (path)
+     (message (concat "color "
+                      (progn (add-text-properties
+                              0 (length path)
+                              (list 'face `((t (:foreground ,path))))
+                              path) path))))
+   (lambda (path desc format)
+     (cond
+      ((eq format 'html)
+       (format "<span style=\"color:%s;\">%s</span>" path desc))
+      ((eq format 'latex)
+       (format "{\\color{%s}%s}" path desc)))))
   )
 
 ;; TODO: create org-brain workspace for all brain files
@@ -97,7 +112,7 @@ See `org-capture-templates' for more information."
   :commands org-brain-visualize
   :init
   (setq org-brain-path "~/pkms/brain")
-  (push 'org-agenda-mode evil-snipe-disabled-modes)
+  ;; (push 'org-agenda-mode evil-snipe-disabled-modes)
   ;; (add-hook 'org-agenda-mode-hook #'(lambda () (evil-vimish-fold-mode -1)))
   (set! :evil-state 'org-brain-visualize-mode 'normal)
 

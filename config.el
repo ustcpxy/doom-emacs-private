@@ -1,6 +1,6 @@
 ;;; config.el --- description -*- lexical-binding: t; -*-
 
-(load! +bindings)
+(load! "+bindings")
 
 (setq +org-dir "~/pkms/gtd/")
 
