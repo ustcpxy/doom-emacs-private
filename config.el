@@ -33,17 +33,19 @@
         company-require-match 'never
         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
         company-childframe-child-frame nil))
-(set! :company-backend '(emacs-lisp-mode) '(company-elisp company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(python-mode) '(company-anaconda company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(inferior-python-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
-(set! :company-backend '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
-(set! :lookup 'emacs-lisp-mode :documentation #'helpful-at-point)
+(set-company-backend! '(emacs-lisp-mode) '(company-elisp company-files company-yasnippet company-dabbrev-code))
+(set-company-backend! '(python-mode) '(company-anaconda company-files company-yasnippet company-dabbrev-code))
+(set-company-backend! '(inferior-python-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+(set-company-backend! '(inferior-ess-mode) '(company-capf company-files company-yasnippet company-dabbrev-code))
+(set-company-backend! '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
+(set-lookup-handlers! 'emacs-lisp-mode
+  :documentation #'helpful-at-point)
 (after! cc-mode
-  (set! :lookup '(c-mode c++-mode) :xref-backend #'gxref-xref-backend)
+  (set-lookup-handlers! '(c-mode c++-mode)
+    :xref-backend #'gxref-xref-backend)
   (setq c-basic-offset 4)
   (c-set-offset 'inclass '+)
-  (set! :company-backend '(c-mode c++-mode) '(company-gtags company-dabbrev-code))
+  (set-company-backend! '(c-mode c++-mode) '(company-gtags company-dabbrev-code))
   (add-hook! (c-mode c++-mode) #'doom|disable-line-numbers)
   )
 
@@ -69,7 +71,6 @@
     (setq winum-auto-assign-0-to-minibuffer nil
           winum-auto-setup-mode-line nil
           winum-ignored-buffers '(" *which-key*"))
-    (message "load winum")
     (map!
      :gnime "M-0" #'winum-select-window-0-or-10
      :gnime "M-1" #'winum-select-window-1

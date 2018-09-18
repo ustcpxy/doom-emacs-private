@@ -9,12 +9,12 @@
 ;; (load! +export)
 
 (after! org
-  (set! :popup "^ ?\\*\\(?:Agenda Com\\|Calendar\\|Org \\(?:Links\\|Export Dispatcher\\|Select\\)\\)"
+  (set-popup-rule! "^ ?\\*\\(?:Agenda Com\\|Calendar\\|Org \\(?:Links\\|Export Dispatcher\\|Select\\)\\)"
   '((slot . -1) (vslot . -1) (size . +popup-shrink-to-fit) (side . right))
   '((transient . 0)))
-  (set! :popup "^\\*Org Agenda" '((size . +popup-shrink-to-fit) (side . right)) '((select . t) (transient)))
-  (set! :popup "^\\*Org Src"    '((size . +popup-shrink-to-fit) (side . right)) '((quit) (select . t)))
-  (set! :popup "^CAPTURE.*\\.org$" '((size . +popup-shrink-to-fit) (side . right)) '((quit) (select . t)))
+  (set-popup-rule! "^\\*Org Agenda" '((size . +popup-shrink-to-fit) (side . right)) '((select . t) (transient)))
+  (set-popup-rule! "^\\*Org Src"    '((size . +popup-shrink-to-fit) (side . right)) '((quit) (select . t)))
+  (set-popup-rule! "^CAPTURE.*\\.org$" '((size . +popup-shrink-to-fit) (side . right)) '((quit) (select . t)))
   ;; (setq
   ;;  org-modules (quote (org-bibtex org-habit org-info org-protocol org-mac-link org-notmuch))
   ;;  org-ellipsis " ▼ "
@@ -54,9 +54,9 @@
           ;;  :empty-lines 1)
           ;; ("l" "org-protocol" entry (file (concat org-directory "notes.org"))
           ;;  "* TODO Review %c\n%U\n" :immediate-finish t)
-          ;; ("j" "Journal Entry" entry (file+datetree (concat org-directory "journal.org"))
-          ;;  "* %?"
-          ;;  :empty-lines 1)
+          ("j" "Journal Entry" entry (file+datetree ,(expand-file-name "journal.org" org-directory ))
+           "* %?"
+           :empty-lines 1)
           ;; ("p" "Project" entry (file (concat org-directory "project.org"))
           ;;  "* %^{prompt} %^g\n %U\n %i\n %?"
           ;;  :empty-lines 1)
@@ -120,7 +120,7 @@ See `org-capture-templates' for more information."
   (setq org-brain-path "~/pkms/brain")
   ;; (push 'org-agenda-mode evil-snipe-disabled-modes)
   ;; (add-hook 'org-agenda-mode-hook #'(lambda () (evil-vimish-fold-mode -1)))
-  (set! :evil-state 'org-brain-visualize-mode 'normal)
+  (set-evil-initial-state! 'org-brain-visualize-mode 'normal)
 
   :config
   (require 'org)
@@ -142,7 +142,7 @@ If run interactively, get ENTRY from context."
         org-capture-templates)
   (setq org-brain-visualize-default-choices 'root
         org-brain-title-max-length 20)
-  (set! :popup "^\\*org-brain\\*$" '((vslot . -1) (size . 0.3) (side . left)) '((select . t) (quit) (transient)))
+  (set-popup-rule! "^\\*org-brain\\*$" '((vslot . -1) (size . 0.3) (side . left)) '((select . t) (quit) (transient)))
 
   (map!
    (:map org-brain-visualize-mode-map

@@ -1,6 +1,5 @@
 ;; ;;; config.el -*- lexical-binding: t; -*-
 
-(message "load chinese")
 ;; Fonts
 (def-package! cnfonts
   :init
