@@ -23,6 +23,7 @@
   ;; TODO only redisplay affect source block
   (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
+  (setq org-directory "~/pkms/gtd/")
   (setq org-log-done t)
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
@@ -104,6 +105,11 @@ See `org-capture-templates' for more information."
        (format "<span style=\"color:%s;\">%s</span>" path desc))
       ((eq format 'latex)
        (format "{\\color{%s}%s}" path desc)))))
+
+  (setq org-agenda-files (quote ("~/pkms/gtd"
+                                 "~/pkms/adva"
+                                 "~/pkms/notebook"
+                                 )))
   )
 
 ;; TODO: create org-brain workspace for all brain files

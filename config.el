@@ -2,8 +2,6 @@
 
 (load! "+bindings")
 
-(setq +org-dir "~/pkms/gtd/")
-
 (setq doom-theme `doom-molokai)
 
 ;; disable quit confirmation
