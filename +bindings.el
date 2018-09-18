@@ -20,12 +20,12 @@
  :nm "gr" #'+lookup/references
 
  :ne "M-`"   #'swiper
- :nv "M-i"   #'my-counsel-imenu
- :gnime "M-/"   #'counsel-rg
+ :nv "M-i"   #'imenu
+ :gnime "M-/"   #'helm-grep-rg
 
  (:leader
    ;; Most commonly used
-   :desc "Find file in system"     :n "l" #'counsel-locate
+   :desc "Find file in system"     :n "l" #'helm-for-files
    :desc "Switch buffer"           :n ","   #'switch-to-buffer
    :desc "Switch last buffer"      :n "TAB"   #'evil-switch-to-windows-last-buffer
    :desc "Jump char"               :n "SPC"   #'avy-goto-word-or-subword-1
