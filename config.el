@@ -157,3 +157,74 @@ found by imenu)."
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
 (setq +doom-modeline-buffer-file-name-style 'file-name)
+
+(setq projectile-svn-command "find . -type f -not -iwholename '*.svn/*' -print0")
+(setq helm-ag-insert-at-point 'symbol)
+;;; Default ag arguments
+;; https://github.com/ggreer/the_silver_searcher
+(defconst modi/ag-arguments
+  '("--nogroup" ;mandatory argument for ag.el as per https://github.com/Wilfred/ag.el/issues/41
+    "--skip-vcs-ignores"                ;Ignore files/dirs ONLY from `.ignore'
+    "--numbers"                         ;Line numbers
+    "--smart-case"
+    ;; "--one-device"                      ;Do not cross mounts when searching
+    "--follow"                          ;Follow symlinks
+    "--ignore" "#*#") ;Adding "*#*#" or "#*#" to .ignore does not work for ag (works for rg)
+  "Default ag arguments used in the functions in `ag', `counsel' and `projectile'
+packages.")
+
+;;; Default rg arguments
+;; https://github.com/BurntSushi/ripgrep
+(defconst modi/rg-arguments
+  `("--no-ignore-vcs"                   ;Ignore files/dirs ONLY from `.ignore'
+    "--line-number"                     ;Line numbers
+    "--smart-case"
+    "--follow"                 ;Follow symlinks
+    "--max-columns" "150"      ;Emacs doesn't handle long line lengths very well
+    "--ignore-file" ,(expand-file-name ".ignore" (getenv "HOME")))
+  "Default rg arguments used in the functions in `counsel' and `projectile'
+packages.")
+
+(after! projectile
+  :config
+  (progn
+    (defun modi/advice-projectile-use-ag (&rest _args)
+      "Always use `ag' for getting a list of all files in the project."
+      (mapconcat #'shell-quote-argument
+                 (append '("ag")
+                         modi/ag-arguments
+                         '("-0"         ;Output null separated results
+                           "-g" ""))    ;Get file names matching "" (all files)
+" "))
+   (defun modi/advice-projectile-use-rg (&rest _args)
+      "Always use `rg' for getting a list of all files in the project."
+      (let* ((prj-user-ignore-name (expand-file-name
+                                    (concat ".ignore." user-login-name)
+                                    (projectile-project-root)))
+             (prj-user-ignore (when (file-exists-p prj-user-ignore-name)
+                                (concat "--ignore-file " prj-user-ignore-name))))
+        (mapconcat #'shell-quote-argument
+                   (if prj-user-ignore
+                       (append '("rg")
+                               modi/rg-arguments
+                               `(,prj-user-ignore)
+                               '("--null" ;Output null separated results
+                                 ;; Get names of all the to-be-searched files,
+                                 ;; same as the "-g ''" argument in ag.
+                                 "--files"))
+                     (append '("rg")
+                             modi/rg-arguments
+                             '("--null"
+                               "--files")))
+                   " ")))
+
+    ;; Use `rg' all the time if available
+    (if (executable-find "rg")
+        (progn
+          (advice-remove 'projectile-get-ext-command #'modi/advice-projectile-use-ag)
+          (advice-add 'projectile-get-ext-command :override #'modi/advice-projectile-use-rg))
+      ;; Else use `ag' if available
+      (when (executable-find "ag")
+        (advice-remove 'projectile-get-ext-command #'modi/advice-projectile-use-rg)
+        (advice-add 'projectile-get-ext-command :override #'modi/advice-projectile-use-ag)))
+    ))

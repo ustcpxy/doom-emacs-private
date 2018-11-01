@@ -29,6 +29,9 @@
    :desc "Switch buffer"           :n ","   #'switch-to-buffer
    :desc "Switch last buffer"      :n "TAB"   #'evil-switch-to-windows-last-buffer
    :desc "Jump char"               :n "SPC"   #'avy-goto-word-or-subword-1
+
+   (:desc "project" :prefix "p"
+     :desc "Search in project"        :n  "s" #'helm-projectile-ag)
    )
  )
 
