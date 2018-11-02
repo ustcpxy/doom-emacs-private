@@ -41,3 +41,6 @@
             ))))
 )
 
+(after! org-agenda
+  (remove-hook 'org-agenda-finalize-hook #'+org|exclude-agenda-buffers-from-workspace)
+  )
