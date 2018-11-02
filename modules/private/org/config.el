@@ -408,12 +408,12 @@ If run interactively, get ENTRY from context."
 ;;                      :post-handlers '(sp-latex-insert-spaces-inside-pair)
 ;;                      :unless '(sp-latex-point-after-backslash)))))
 
-(after! evil-org
-  (evil-org-set-key-theme '(navigation insert textobjects todo))
-  (map!
-   (:map org-mode-map
-     :n ", ,"   #'org-ctrl-c-ctrl-c))
-  )
+;; (after! evil-org
+;;   (evil-org-set-key-theme '(navigation insert textobjects todo))
+;;   (map!
+;;    (:map org-mode-map
+;;      :n ", ,"   #'org-ctrl-c-ctrl-c))
+;;   )
 
 (def-package! ox-hugo
   :after ox

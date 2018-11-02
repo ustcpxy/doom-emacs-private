@@ -1,6 +1,6 @@
 ;;; +bindings.el -*- lexical-binding: t; -*-
 
-
+(setq doom-localleader-key ",")
 ;;
 (map!
 
@@ -34,6 +34,3 @@
      :desc "Search in project"        :n  "s" #'helm-projectile-ag)
    )
  )
-
-
-(map! [remap org-capture] nil)

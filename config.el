@@ -1,6 +1,7 @@
 ;;; config.el --- description -*- lexical-binding: t; -*-
 
 (load! "+bindings")
+(load! "+org")
 
 (setq doom-theme `doom-molokai)
 
