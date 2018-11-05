@@ -44,3 +44,7 @@
 (after! org-agenda
   (remove-hook 'org-agenda-finalize-hook #'+org|exclude-agenda-buffers-from-workspace)
   )
+
+;; support to refile something into another file or heading and place it beneath a new parent
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+(setq org-refile-use-outline-path 'file)
