@@ -10,9 +10,9 @@
       (:after evil-org
         (:map evil-org-mode-map
           :nm "t" #'org-todo
-          :nm "r" #'org-refile
           :nm "s" #'org-schedule
           (:localleader
+            :nm "r" #'org-refile
             :nm "SPC" #'org-set-tags
             )))
       (:after org-agenda
@@ -45,6 +45,16 @@
   (remove-hook 'org-agenda-finalize-hook #'+org|exclude-agenda-buffers-from-workspace)
   )
 
-;; support to refile something into another file or heading and place it beneath a new parent
-(setq org-refile-allow-creating-parent-nodes 'confirm)
-(setq org-refile-use-outline-path 'file)
+;; org refile configuration
+; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
+
+; Use full outline paths for refile targets - we file directly with helm
+(setq org-refile-use-outline-path t)
+
+; Targets complete directly with helm
+(setq org-outline-path-complete-in-steps nil)
+
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
