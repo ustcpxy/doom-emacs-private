@@ -35,16 +35,16 @@
   ;;       org-capture-templates)
   (setq org-capture-templates
         `(
-          ("t" "Tasks" entry (file+headline ,(expand-file-name "tasks.org" org-directory ) "Tasks")
+          ("t" "Tasks" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Tasks")
            "* TODO %?\n%i\n"
            :empty-lines 1)
-          ("n" "Notes" entry (file ,(expand-file-name "notes.org" org-directory ))
+          ("n" "Notes" entry (file ,(expand-file-name "inbox.org" org-directory ) "Notes")
            "* %? \n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"
            :empty-lines 1)
           ("c" "Calendar" entry (file+headline ,(expand-file-name "tasks.org" org-directory) "Tasks")
             "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
             :empty-lines 1)
-          ("i" "Inbox" entry (file ,(expand-file-name "inbox.org" org-directory ))
+          ("o" "Inbox" entry (file ,(expand-file-name "inbox.org" org-directory ) "Others")
            "* TODO %? \n:PROPERTIES:\n:CREATED: %U\n:END:"
            :empty-lines 1)
           ;; ("s" "Code Snippet" entry (file (concat org-directory "snippets.org"))
