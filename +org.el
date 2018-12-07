@@ -10,9 +10,9 @@
       (:after evil-org
         (:map evil-org-mode-map
           :nm "t" #'org-todo
-          :nm "s" #'org-schedule
           (:localleader
             :nm "r" #'org-refile
+            :nm "s" #'org-schedule
             :nm "SPC" #'org-set-tags
             )))
       (:after org-agenda
