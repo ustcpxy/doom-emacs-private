@@ -38,6 +38,9 @@
           ("t" "Tasks" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Tasks")
            "* TODO %?\n%i\n"
            :empty-lines 1)
+          ("b" "Books" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Books")
+           "* Read /%?/\n%i\n"
+           :empty-lines 1)
           ("n" "Notes" entry (file ,(expand-file-name "inbox.org" org-directory ) "Notes")
            "* %? \n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"
            :empty-lines 1)
