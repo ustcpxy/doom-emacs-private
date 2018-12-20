@@ -41,13 +41,13 @@
           ("b" "Books" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Books")
            "* Read /%?/\n%i\n"
            :empty-lines 1)
-          ("n" "Notes" entry (file ,(expand-file-name "inbox.org" org-directory ) "Notes")
+          ("n" "Notes" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Notes")
            "* %? \n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"
            :empty-lines 1)
           ("c" "Calendar" entry (file+headline ,(expand-file-name "tasks.org" org-directory) "Tasks")
             "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
             :empty-lines 1)
-          ("o" "Inbox" entry (file ,(expand-file-name "inbox.org" org-directory ) "Others")
+          ("o" "Inbox" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Others")
            "* TODO %? \n:PROPERTIES:\n:CREATED: %U\n:END:"
            :empty-lines 1)
           ;; ("s" "Code Snippet" entry (file (concat org-directory "snippets.org"))
@@ -418,10 +418,3 @@ If run interactively, get ENTRY from context."
 ;;      :n ", ,"   #'org-ctrl-c-ctrl-c))
 ;;   )
 
-(def-package! ox-hugo
-  :after ox
-  :config
-  (map!
-   (:map org-mode-map
-     :n "M-e"   #'org-hugo-export-wim-to-md))
-  )

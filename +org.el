@@ -415,3 +415,11 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                        (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
                        (org-tags-match-list-sublevels nil))))
                nil))))
+
+(def-package! ox-hugo
+  :after ox
+  :config
+  (map!
+   (:map org-mode-map
+     :n "M-e"   #'org-hugo-export-wim-to-md))
+  )
