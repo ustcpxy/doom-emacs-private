@@ -41,6 +41,8 @@
 (set-company-backend! '(org-mode) '(company-capf company-files company-yasnippet company-dabbrev))
 (set-lookup-handlers! 'emacs-lisp-mode
   :documentation #'helpful-at-point)
+(global-company-mode +1)
+
 (after! cc-mode
   (set-lookup-handlers! '(c-mode c++-mode)
     :xref-backend #'gxref-xref-backend)
