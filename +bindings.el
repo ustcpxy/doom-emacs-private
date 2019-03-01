@@ -22,6 +22,8 @@
  :ne "M-`"   #'swiper
  :nv "M-i"   #'imenu
  :gnime "M-/"   #'helm-grep-rg
+ :n "M-s" #'save-buffer
+ :n "M-q" (if (daemonp) #'delete-frame #'evil-quit-all)
 
  (:leader
    ;; Most commonly used
