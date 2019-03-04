@@ -1,1 +1,5 @@
 * doom-emacs-private
+
+* my changes
+- use =gxref-xref-backend= as the xref-backend to browser c/c++ code
+- use =company-gtags= as the company-backend to auto complete c/c++ code
