@@ -231,3 +231,5 @@ packages.")
         (advice-remove 'projectile-get-ext-command #'modi/advice-projectile-use-rg)
         (advice-add 'projectile-get-ext-command :override #'modi/advice-projectile-use-ag)))
     ))
+
+(setq select-enable-primary t)
