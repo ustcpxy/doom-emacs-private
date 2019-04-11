@@ -51,7 +51,7 @@
                                  (org-agenda-files :maxlevel . 9))))
 
 ; Use full outline paths for refile targets - we file directly with helm
-(setq org-refile-use-outline-path t)
+(setq org-refile-use-outline-path 'file)
 
 ; Targets complete directly with helm
 (setq org-outline-path-complete-in-steps nil)
