@@ -233,3 +233,5 @@ packages.")
     ))
 
 (setq select-enable-primary t)
+
+(setq ccls-executable "~/github/ccls/Release/ccls")
