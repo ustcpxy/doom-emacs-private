@@ -235,3 +235,7 @@ packages.")
 (setq select-enable-primary t)
 
 (setq ccls-executable "~/github/ccls/Release/ccls")
+
+(add-hook 'org-mode-hook
+          (lambda ()
+        (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
