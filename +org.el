@@ -13,7 +13,7 @@
           (:localleader
             :nm "r" #'org-refile
             :nm "s" #'org-schedule
-            :nm "SPC" #'org-set-tags
+            :nm "SPC" #'org-set-tags-command
             )))
       (:after org-agenda
         (:map org-agenda-mode-map
