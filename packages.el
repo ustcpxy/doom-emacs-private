@@ -4,3 +4,4 @@
 (package! gxref)
 (package! winum)
 (package! ox-hugo)
+(package! yang-mode)

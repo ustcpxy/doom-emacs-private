@@ -453,3 +453,7 @@ See `org-capture-templates' for more information."
                  ;; symlink pointing to the actual location of all-posts.org!
                  (file+olp "../blog/all-posts.org" "Blog Ideas")
                  (function org-hugo-new-subtree-post-capture-template))))
+
+(def-package! ox-freemind
+  :after ox
+  )

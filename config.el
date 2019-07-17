@@ -239,3 +239,17 @@ packages.")
 (add-hook 'org-mode-hook
           (lambda ()
         (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
+
+(require 'ox-latex)
+(setq org-latex-listings 'minted)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(setq doom-projectile-fd-binary "fdfind")
+
+(def-package! yang-mode
+  )

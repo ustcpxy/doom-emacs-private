@@ -35,13 +35,13 @@
   ;;       org-capture-templates)
   (setq org-capture-templates
         `(
-          ("t" "Tasks" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Tasks")
+          ("t" "Tasks" entry (file,(expand-file-name "inbox.org" org-directory ) )
            "* TODO %?\n%i\n"
            :empty-lines 1)
-          ("b" "Books" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Books")
+          ("b" "Books" entry (file,(expand-file-name "inbox.org" org-directory ) )
            "* Read /%?/\n%i\n"
            :empty-lines 1)
-          ("n" "Notes" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Notes")
+          ("n" "Notes" entry (file,(expand-file-name "inbox.org" org-directory ) )
            "* %? \n:PROPERTIES:\n:CREATED: %U\n:END:\n%i\n"
            :empty-lines 1)
           ("c" "Calendar" entry (file+headline ,(expand-file-name "tasks.org" org-directory) "Tasks")
@@ -86,7 +86,7 @@
 
   (setq org-agenda-files (quote ("~/pkms/gtd"
                                  "~/pkms/adva"
-                                 "~/pkms/notebook"
+                                 "~/pkms/notes"
                                  )))
   )
 
