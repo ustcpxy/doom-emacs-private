@@ -5,3 +5,5 @@
 (package! winum)
 (package! ox-hugo)
 (package! yang-mode)
+;; (package! log4j-mode)
+(package! logview)

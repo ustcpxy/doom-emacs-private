@@ -253,3 +253,29 @@ packages.")
 
 (def-package! yang-mode
   )
+
+(setq logview-additional-level-mappings
+      '(("aos-level" . ((error       "ERROR" "\033[31mERROR \033[0m")
+                        (warning     "WARN" "\033[33mWARN  \033[0m")
+                        (information "INFO")
+                        (debug       "DEBUG")
+                        (trace       "TRACE" "NOTICE")
+                        ))))
+(setq logview-additional-timestamp-formats
+      '(
+        ("t4mpl"
+         (java-pattern . "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+         (aliases)
+        )
+        ))
+(setq logview-additional-submodes
+      '(
+        ("aos"
+         (format . "TIMESTAMP|NAME|LEVEL|THREAD|MESSAGE")
+         (levels . "aos-level"))
+        ;; ("mpl"
+        ;;  (format . "TIMESTAMP|NAME|LEVEL|THREAD|IGNORED|MESSAGE")
+        ;;  (levels . "aos-level")
+        ;;  (timestamp)
+        ;;  )
+        ))
