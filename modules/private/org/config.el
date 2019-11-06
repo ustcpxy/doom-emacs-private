@@ -35,12 +35,12 @@
   ;;       org-capture-templates)
   (setq org-capture-templates
         `(
-          ("t" "Tasks" entry (file,(expand-file-name "inbox.org" org-directory ) )
+          ("t" "Tasks" entry (file+headline,(expand-file-name "inbox.org" org-directory ) "Tasks" )
            "* TODO %?\n%U\n")
           ("b" "Books" entry (file,(expand-file-name "inbox.org" org-directory ) )
            "* Read /%?/\n%i\n"
            :empty-lines 1)
-          ("n" "Notes" entry (file,(expand-file-name "inbox.org" org-directory ) )
+          ("n" "Notes" entry (file+headline,(expand-file-name "inbox.org" org-directory ) "Notes" )
            "* %^{heading}\n%U\n\n%?")
           ("c" "Calendar" entry (file+headline ,(expand-file-name "tasks.org" org-directory) "Tasks")
             "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
