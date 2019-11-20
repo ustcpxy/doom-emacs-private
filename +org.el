@@ -353,9 +353,6 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                  '(todo-state-down effort-up category-keep))))
               (" " "Agenda"
                ((agenda "" nil)
-                (tags "REFILE"
-                      ((org-agenda-overriding-header "Tasks to Refile")
-                       (org-tags-match-list-sublevels nil)))
                 (tags-todo "-CANCELLED/!"
                            ((org-agenda-overriding-header "Stuck Projects")
                             (org-agenda-skip-function 'bh/skip-non-stuck-projects)
