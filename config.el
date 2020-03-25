@@ -261,6 +261,13 @@ packages.")
                         (debug       "DEBUG")
                         (trace       "TRACE" "NOTICE")
                         ))))
+;; (setq logview-additional-level-mappings
+;;       '(("aos-level" . ((error       "ERROR")
+;;                         (warning     "WARN")
+;;                         (information "INFO")
+;;                         (debug       "DEBUG")
+;;                         (trace       "TRACE" "NOTICE")
+;;                         ))))
 (setq logview-additional-timestamp-formats
       '(
         ("t4mpl"
@@ -279,3 +286,87 @@ packages.")
         ;;  (timestamp)
         ;;  )
         ))
+
+; https://stackoverflow.com/questions/23378271/how-do-i-display-ansi-color-codes-in-emacs-for-any-mode
+; display ansi color in emacs
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (let ((inhibit-read-only t)))
+  (ansi-color-apply-on-region (point-min) (point-max)))
+(add-to-list 'auto-mode-alist '("\\.log\\'" . display-ansi-colors))
+
+
+(setq tramp-default-method "ssh")
+(setq tramp-default-user "root")
+;; (tramp-set-completion-function "sshx"
+;;                                '((tramp-parse-sconfig "/etc/ssh_config")
+;;                                  (tramp-parse-sconfig "~/.ssh/config")))
+
+;; (require 'srefactor)
+;; (require 'srefactor-lisp)
+
+;; ;; OPTIONAL: ADD IT ONLY IF YOU USE C/C++.
+;; (semantic-mode 1) ;; -> this is optional for Lisp
+
+;; (define-key c-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
+;; (define-key c++-mode-map (kbd "M-RET") 'srefactor-refactor-at-point)
+;; (global-set-key (kbd "M-RET o") 'srefactor-lisp-one-line)
+;; (global-set-key (kbd "M-RET m") 'srefactor-lisp-format-sexp)
+;; (global-set-key (kbd "M-RET d") 'srefactor-lisp-format-defun)
+;; (global-set-key (kbd "M-RET b") 'srefactor-lisp-format-buffer)
+(server-start)
+
+(setq jethro/org-agenda-directory "~/pkms/gtd/")
+(setq jethro/org-agenda-reading-view
+      `("r" "Reading" todo ""
+        ((org-agenda-files '(,(concat jethro/org-agenda-directory "reading.org"))))))
+(defun org-current-is-todo ()
+(string= "TODO" (org-get-todo-state)))
+(defun jethro/org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (or (org-current-is-todo)
+                (not (org-get-scheduled-time (point))))
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+(goto-char (point-max))))))
+(add-to-list 'org-agenda-custom-commands `,jethro/org-agenda-reading-view)
+(setq jethro/org-agenda-todo-view
+      `(" " "Agenda"
+        ((agenda ""
+                 ((org-agenda-span 'day)
+                  (org-deadline-warning-days 365)))
+         (todo "TODO"
+               ((org-agenda-overriding-header "To Refile")
+                (org-agenda-files '(,(concat jethro/org-agenda-directory "inbox.org")))))
+         (todo "TODO"
+               ((org-agenda-overriding-header "Emails")
+                (org-agenda-files '(,(concat jethro/org-agenda-directory "emails.org")))))
+         (todo "NEXT"
+               ((org-agenda-overriding-header "In Progress")
+                (org-agenda-files '(,(concat jethro/org-agenda-directory "someday.org")
+                                    ,(concat jethro/org-agenda-directory "projects.org")
+                                    ,(concat jethro/org-agenda-directory "next.org")))
+                ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
+                ))
+         (todo "TODO"
+               ((org-agenda-overriding-header "Projects")
+                (org-agenda-files '(,(concat jethro/org-agenda-directory "projects.org")))
+                (org-agenda-skip-function #'jethro/org-agenda-skip-all-siblings-but-first)
+                ))
+         (todo "TODO"
+               ((org-agenda-overriding-header "One-off Tasks")
+                (org-agenda-files '(,(concat jethro/org-agenda-directory "next.org")))
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
+         nil)))
+
+(add-to-list 'org-agenda-custom-commands `,jethro/org-agenda-todo-view)
+(setq deft-directory "~/pkms/notes")
+
+(define-key global-map [select] 'end-of-line)

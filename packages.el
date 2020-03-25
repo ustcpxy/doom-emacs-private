@@ -7,3 +7,4 @@
 (package! yang-mode)
 ;; (package! log4j-mode)
 (package! logview)
+;; (package! srefactor)

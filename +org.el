@@ -43,6 +43,7 @@
 
 (after! org-agenda
   (remove-hook 'org-agenda-finalize-hook #'+org|exclude-agenda-buffers-from-workspace)
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
   )
 
 ;; org refile configuration
@@ -66,6 +67,85 @@
 (setq org-agenda-compact-blocks t)
 
 (add-to-list 'org-modules 'org-habit)
+
+;; Some helper functions for selection within agenda views
+(defun gs/select-with-tag-function (select-fun-p)
+  (save-restriction
+    (widen)
+    (let ((next-headline
+           (save-excursion (or (outline-next-heading)
+                               (point-max)))))
+      (if (funcall select-fun-p) nil next-headline))))
+
+(defun gs/select-projects ()
+  "Selects tasks which are project headers"
+  (gs/select-with-tag-function #'bh/is-project-p))
+(defun gs/select-project-tasks ()
+  "Skips tags which belong to projects (and is not a project itself)"
+  (gs/select-with-tag-function
+   #'(lambda () (and
+                 (not (bh/is-project-p))
+                 (bh/is-project-subtree-p)))))
+(defun gs/select-standalone-tasks ()
+  "Skips tags which belong to projects. Is neither a project, nor does it blong to a project"
+  (gs/select-with-tag-function
+   #'(lambda () (and
+                 (not (bh/is-project-p))
+                 (not (bh/is-project-subtree-p))))))
+(defun gs/select-projects-and-standalone-tasks ()
+  "Skips tags which are not projects"
+  (gs/select-with-tag-function
+   #'(lambda () (or
+                 (bh/is-project-p)
+                 (bh/is-project-subtree-p)))))
+
+(defun gs/org-agenda-project-warning ()
+  "Is a project stuck or waiting. If the project is not stuck,
+show nothing. However, if it is stuck and waiting on something,
+show this warning instead."
+  (if (gs/org-agenda-project-is-stuck)
+      (if (gs/org-agenda-project-is-waiting) " !W" " !S") ""))
+
+(defun gs/org-agenda-project-is-stuck ()
+  "Is a project stuck"
+  (if (bh/is-project-p) ; first, check that it's a project
+      (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+             (has-next))
+        (save-excursion
+          (forward-line 1)
+          (while (and (not has-next)
+                      (< (point) subtree-end)
+                      (re-search-forward "^\\*+ NEXT " subtree-end t))
+            (unless (member "WAITING" (org-get-tags-at))
+              (setq has-next t))))
+        (if has-next nil t)) ; signify that this project is stuck
+    nil)) ; if it's not a project, return an empty string
+
+(defun gs/org-agenda-project-is-waiting ()
+  "Is a project stuck"
+  (if (bh/is-project-p) ; first, check that it's a project
+      (let* ((subtree-end (save-excursion (org-end-of-subtree t))))
+	      (save-excursion
+	        (re-search-forward "^\\*+ WAITING" subtree-end t)))
+    nil)) ; if it's not a project, return an empty string
+
+;; Some helper functions for agenda views
+(defun gs/org-agenda-prefix-string ()
+  "Format"
+  (let ((path (org-format-outline-path (org-get-outline-path))) ; "breadcrumb" path
+        (stuck (gs/org-agenda-project-warning))) ; warning for stuck projects
+    (if (> (length path) 0)
+        (concat stuck ; add stuck warning
+                " [" path "]") ; add "breadcrumb"
+      stuck)))
+
+(defun gs/org-agenda-add-location-string ()
+  "Gets the value of the LOCATION property"
+  (let ((loc (org-entry-get (point) "LOCATION")))
+    (if (> (length loc) 0)
+        (concat "{" loc "} ")
+      "")))
+
 (defun bh/find-project-task ()
   "Move point to the parent (project) task if any"
   (save-restriction
@@ -352,7 +432,10 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                 (org-agenda-sorting-strategy
                  '(todo-state-down effort-up category-keep))))
               (" " "Agenda"
-               ((agenda "" nil)
+               ((agenda ""
+                        ((org-agenda-span 'day)
+                         (org-agenda-start-day "+0d")
+                         ))
                 (tags-todo "-CANCELLED/!"
                            ((org-agenda-overriding-header "Stuck Projects")
                             (org-agenda-skip-function 'bh/skip-non-stuck-projects)
@@ -411,7 +494,8 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
                       ((org-agenda-overriding-header "Tasks to Archive")
                        (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
                        (org-tags-match-list-sublevels nil))))
-               nil))))
+                ((org-agenda-todo-ignore-deadlines (quote all)))
+               ))))
 
 (def-package! ox-hugo
   :after ox
