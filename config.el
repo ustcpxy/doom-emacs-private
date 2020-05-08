@@ -1,15 +1,66 @@
 ;;; config.el --- description -*- lexical-binding: t; -*-
 
-(load! "+bindings")
-(load! "+org")
-
 (setq doom-theme `doom-molokai)
 
 ;; disable quit confirmation
 (setq confirm-kill-emacs nil)
 
+(setq doom-localleader-key ",")
+;;
+(map!
+
+ :gnime "<f12>" #'org-agenda
+ :gnime "<f9>" #'org-capture
+ :gnime "<f8>" #'org-capture-finalize
+ :gnime "<f5>" #'org-refile
+ :gnime "M-<f9>" #'org-capture-refile
+ :gnime "M-<f8>" #'org-capture-kill
+
+ :v "M-;" #'comment-dwim
+ :gnime "M-;" #'comment-line
+ :gnime "M-'" #'comment-dwim
+
+ ;; --- Personal vim-esque bindings ------------------
+ :nm "gd" #'+lookup/definition
+ :nm "gr" #'+lookup/references
+
+ :ne "M-`"   #'swiper
+ :nv "M-i"   #'imenu
+ :gnime "M-/"   #'helm-grep-rg
+ :n "M-s" #'save-buffer
+ :n "M-w" #'delete-window
+ :n "M-q" (if (daemonp) #'delete-frame #'evil-quit-all)
+
+ (:leader
+   ;; Most commonly used
+   :desc "Find file in system"     :n "l" #'helm-for-files
+   :desc "Switch buffer"           :n ","   #'switch-to-buffer
+   :desc "Switch last buffer"      :n "TAB"   #'evil-switch-to-windows-last-buffer
+   :desc "Jump char"               :n "SPC"   #'avy-goto-word-or-subword-1
+
+   ;; (:desc "project" :prefix "p"
+   ;;   :desc "Search in project"        :n  "s" #'helm-projectile-rg)
+   )
+ )
+
+;; Popup settings
+
+;; Select the IList buffer when it is shown
+(after! imenu-list
+  (set-popup-rule! "^\\*Ilist"
+    :side 'right :size 35 :quit nil :select t :ttl 0))
+
+;; Larger undo tree window
+(after! undo-tree
+  (set-popup-rule! " \\*undo-tree\\*" :slot 2 :side 'left :size 60 :modeline nil :select t :quit t))
+
+;; Larger org src edit
+(after! org
+  (set-popup-rule! "^\\*Org Src" :side 'bottom :slot -2 :height 0.6 :width 0.5 :select t :autosave t :ttl nil :quit nil))
+
+
 ;; gtags support
-(def-package! gxref
+(use-package! gxref
   :when (featurep! :feature lookup)
   :commands (gxref-xref-backend
              gxref-create-db
@@ -49,14 +100,13 @@
   (setq c-basic-offset 4)
   (c-set-offset 'inclass '+)
   (set-company-backend! '(c-mode c++-mode) '(company-gtags company-dabbrev-code))
-  (add-hook! (c-mode c++-mode) #'doom|disable-line-numbers)
   )
 
  ;; plantuml and dot
 (setq plantuml-jar-path (concat (expand-file-name "local/" doom-private-dir) "plantuml.jar"))
 (setq org-plantuml-jar-path plantuml-jar-path)
 
-(def-package! winum
+(use-package! winum
   :config
   (progn
     (defun spacemacs//winum-assign-func ()
@@ -90,40 +140,8 @@
   :config
   (progn
 
-;; (defun counsel-imenu (&optional force-rescan jump-immediately)
-;;   "Jump to a buffer position indexed by imenu.
-
-;; With one \\[universal-argument] prefix, imenu will rescan the
-;; entire buffer regardless of its size.
-
-;; With two \\[universal-argument] prefixes, we'll immediately jump
-;; to the definition of the thing at point (assuming that thing is
-;; found by imenu)."
-;;   (interactive "P")
-;;   (setq jump-immediately (<= 16 (car force-rescan)))
-;;   (unless (featurep 'imenu)
-;;     (require 'imenu nil t))
-;;   (let* ((imenu-auto-rescan t)
-;;          (imenu-auto-rescan-maxout (if force-rescan
-;;                                        (buffer-size)
-;;                                      imenu-auto-rescan-maxout))
-;;          (items (imenu--make-index-alist t))
-;;          (items (delete (assoc "*Rescan*" items) items))
-;;          (tap (thing-at-point 'symbol))
-;;          (tap-candidate (assoc tap items)))
-;;     (if tap-candidate
-;;         (imenu (car tap-candidate))
-;;       (ivy-read "imenu items:" (counsel-imenu-get-candidates-from items)
-;;                 :preselect tap
-;;                 :require-match t
-;;                 :action (lambda (candidate)
-;;                           (with-ivy-window
-;;                             ;; In org-mode, (imenu candidate) will expand child node
-;;                             ;; after jump to the candidate position
-;;                             (imenu (cdr candidate))))
-;;                 :caller 'counsel-imenu))))
-(defun my-counsel-imenu (&optional force-rescan jump-immediately)
-  "Jump to a buffer position indexed by imenu.
+    (defun my-counsel-imenu (&optional force-rescan jump-immediately)
+      "Jump to a buffer position indexed by imenu.
 
 With one \\[universal-argument] prefix, imenu will rescan the
 entire buffer regardless of its size.
@@ -131,28 +149,28 @@ entire buffer regardless of its size.
 With two \\[universal-argument] prefixes, we'll immediately jump
 to the definition of the thing at point (assuming that thing is
 found by imenu)."
-  (interactive "P")
-  (unless (featurep 'imenu)
-    (require 'imenu nil t))
-  (let* ((imenu-auto-rescan t)
-         (imenu-auto-rescan-maxout (buffer-size))
-         (items (imenu--make-index-alist t))
-         (items (delete (assoc "*Rescan*" items) items))
-         (tap (thing-at-point 'symbol))
-         (tap-candidate (assoc tap items)))
-    (if tap-candidate
-        (imenu (car tap-candidate))
-      (ivy-read "imenu items:" (counsel-imenu-get-candidates-from items)
-                :preselect tap
-                :require-match t
-                :action (lambda (candidate)
-                          (with-ivy-window
-                            ;; In org-mode, (imenu candidate) will expand child node
-                            ;; after jump to the candidate position
-                            (imenu (cdr candidate))))
-                :caller 'counsel-imenu))))
-)
-)
+      (interactive "P")
+      (unless (featurep 'imenu)
+        (require 'imenu nil t))
+      (let* ((imenu-auto-rescan t)
+             (imenu-auto-rescan-maxout (buffer-size))
+             (items (imenu--make-index-alist t))
+             (items (delete (assoc "*Rescan*" items) items))
+             (tap (thing-at-point 'symbol))
+             (tap-candidate (assoc tap items)))
+        (if tap-candidate
+            (imenu (car tap-candidate))
+          (ivy-read "imenu items:" (counsel-imenu-get-candidates-from items)
+                    :preselect tap
+                    :require-match t
+                    :action (lambda (candidate)
+                              (with-ivy-window
+                                ;; In org-mode, (imenu candidate) will expand child node
+                                ;; after jump to the candidate position
+                                (imenu (cdr candidate))))
+                    :caller 'counsel-imenu))))
+    )
+  )
 
 (setq frame-title-format
       '("" " - "
@@ -251,9 +269,6 @@ packages.")
 
 (setq doom-projectile-fd-binary "fdfind")
 
-(def-package! yang-mode
-  )
-
 (setq logview-additional-level-mappings
       '(("aos-level" . ((error       "ERROR" "\033[31mERROR \033[0m")
                         (warning     "WARN" "\033[33mWARN  \033[0m")
@@ -336,7 +351,7 @@ packages.")
     (when should-skip-entry
       (or (outline-next-heading)
 (goto-char (point-max))))))
-(add-to-list 'org-agenda-custom-commands `,jethro/org-agenda-reading-view)
+;(add-to-list 'org-agenda-custom-commands `,jethro/org-agenda-reading-view)
 (setq jethro/org-agenda-todo-view
       `(" " "Agenda"
         ((agenda ""
@@ -358,7 +373,7 @@ packages.")
          (todo "TODO"
                ((org-agenda-overriding-header "Projects")
                 (org-agenda-files '(,(concat jethro/org-agenda-directory "projects.org")))
-                (org-agenda-skip-function #'jethro/org-agenda-skip-all-siblings-but-first)
+                ;; (org-agenda-skip-function #'jethro/org-agenda-skip-all-siblings-but-first)
                 ))
          (todo "TODO"
                ((org-agenda-overriding-header "One-off Tasks")
@@ -366,7 +381,7 @@ packages.")
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
          nil)))
 
-(add-to-list 'org-agenda-custom-commands `,jethro/org-agenda-todo-view)
+;(add-to-list 'org-agenda-custom-commands `,jethro/org-agenda-todo-view)
 (setq deft-directory "~/pkms/notes")
 
 (define-key global-map [select] 'end-of-line)
