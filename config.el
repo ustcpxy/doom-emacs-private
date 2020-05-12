@@ -43,7 +43,7 @@
    )
  )
 
-;; Popup settings
+;; set popup rules
 
 ;; Select the IList buffer when it is shown
 (after! imenu-list
@@ -53,11 +53,6 @@
 ;; Larger undo tree window
 (after! undo-tree
   (set-popup-rule! " \\*undo-tree\\*" :slot 2 :side 'left :size 60 :modeline nil :select t :quit t))
-
-;; Larger org src edit
-(after! org
-  (set-popup-rule! "^\\*Org Src" :side 'bottom :slot -2 :height 0.6 :width 0.5 :select t :autosave t :ttl nil :quit nil))
-
 
 ;; gtags support
 (use-package! gxref
@@ -381,7 +376,7 @@ packages.")
                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
          nil)))
 
-;(add-to-list 'org-agenda-custom-commands `,jethro/org-agenda-todo-view)
-(setq deft-directory "~/pkms/notes")
 
 (define-key global-map [select] 'end-of-line)
+
+(load! "+org")
