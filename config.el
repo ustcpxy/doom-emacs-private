@@ -1,26 +1,20 @@
 ;;; config.el --- description -*- lexical-binding: t; -*-
 
 (setq doom-theme `doom-molokai)
+(setq doom-font (font-spec :family "monospace" :size 16))
+
+; Specify font for Chinese characters Font
+(defun font-installed-p (font-name)
+  "Check if font with FONT-NAME is available."
+  (find-font (font-spec :name font-name)))
+(cl-loop for font in '("WenQuanYi Micro Hei" "Microsoft Yahei")
+         when (font-installed-p font)
+         return (set-fontset-font t '(#x4e00 . #x9fff) font))
 
 ;; disable quit confirmation
 (setq confirm-kill-emacs nil)
 
 (setq doom-localleader-key ",")
-
-;; Chinese Fonts
-(use-package! cnfonts
-  :init
-  (add-hook 'after-init-hook #'cnfonts-enable)
-  :config
-  (setq cnfonts-keep-frame-size nil)
-  (setq cnfonts-use-cache t)
-  (setq cnfonts-profiles
-        '("program1" "program2" "program3" "org-mode" "read-book"))
-  (setq cnfonts--profiles-steps '(("program1" . 4)
-                                  ("program2" . 5)
-                                  ("program3" . 3)
-                                  ("org-mode" . 6)
-                                  ("read-book" . 8))))
 
 ;;
 (map!
