@@ -367,13 +367,23 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
         (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                 (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING" "READING"))))
 
+  ;; used for filtering block agenda view
+  (setq org-todo-state-tags-triggers
+        (quote (("CANCELLED" ("CANCELLED" . t))
+                ("WAITING" ("WAITING" . t))
+                ("HOLD" ("WAITING") ("HOLD" . t))
+                (done ("WAITING") ("HOLD"))
+                ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+                ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+                ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+
   (setq org-agenda-files (quote ("~/pkms/gtd"
                                  "~/pkms/adva"
                                  "~/pkms/notes"
                                  )))
   (setq org-capture-templates
         `(
-          ("t" "Tasks" entry (file,(expand-file-name "inbox.org" org-directory ) )
+          ("t" "Tasks" entry (file "inbox.org")
            "* TODO %?\n%U\n")
           ("b" "Books" entry (file,(expand-file-name "inbox.org" org-directory ) )
            "* Read %^{TITLE}\n\%U%^{AUTHOR}p\n%\\1\n%?"
