@@ -1,5 +1,9 @@
 ;;; +org.el -*- lexical-binding: t; -*-
 
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/pkms/gtd/")
+
 ;; disable the default org-mode stuck projects agenda view
 (setq org-stuck-projects (quote ("" nil nil "")))
 
@@ -83,7 +87,6 @@
                nil))))
 
 (after! org
-  (setq org-directory "~/pkms/gtd/")
   (setq org-log-done t)
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
@@ -118,23 +121,15 @@
           ("o" "Inbox" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Others")
            "* TODO %? \n:PROPERTIES:\n:CREATED: %U\n:END:"
            :empty-lines 1)
-          ;; ("s" "Code Snippet" entry (file (concat org-directory "snippets.org"))
-          ;;  "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-          ;; ("w" "work" entry (file+headline (concat org-directory "gtd.org") "GE11X")
-          ;;  "* TODO %?\n  %i\n %U"
-          ;;  :empty-lines 1)
            ("w" "Weekly Review" entry (file+olp+datetree ,(concat org-directory "reviews.org"))
             (file ,(concat org-directory "templates/weekly_review.org")))
-          ("l" "org-protocol-capture" entry (file,(expand-file-name "inbox.org" org-directory ) )
+           ("l" "org-protocol-capture" entry (file "inbox.org")
            "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
           ("j" "Journal Entry" entry (file+datetree ,(expand-file-name "journal.org" org-directory ))
            "* %?"
            :empty-lines 1)
-          ;; ("p" "Project" entry (file (concat org-directory "project.org"))
-          ;;  "* %^{prompt} %^g\n %U\n %i\n %?"
-          ;;  :empty-lines 1)
-          ;; ("h" "Habit" entry (file (concat org-directory "gtd.org"))
-          ;;  "* NEXT %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%U\n")
+          ("h" "Habit" entry (file "inbox.org")
+           "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
           )
   )
   )
