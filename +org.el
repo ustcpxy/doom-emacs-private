@@ -22,7 +22,10 @@
                 (org-agenda-sorting-strategy
                  '(todo-state-down effort-up category-keep))))
               (" " "Agenda"
-               ((agenda "" nil)
+               ((agenda ""
+                        ((org-agenda-span 'day)
+                         (org-agenda-start-day nil)
+                         (org-deadline-warning-days 3)))
                 (tags-todo "REFILE"
                       ((org-agenda-overriding-header "Tasks to Refile")
                        (org-tags-match-list-sublevels nil)))
@@ -122,12 +125,12 @@
            "* TODO %? \n:PROPERTIES:\n:CREATED: %U\n:END:"
            :empty-lines 1)
            ("w" "Weekly Review" entry (file+olp+datetree ,(concat org-directory "reviews.org"))
-            (file ,(concat org-directory "templates/weekly_review.org")))
+            (file ,(concat org-directory "templates/weekly_review.org"))
+            :tree-type week)
            ("l" "org-protocol-capture" entry (file "inbox.org")
            "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-          ("j" "Journal Entry" entry (file+datetree ,(expand-file-name "journal.org" org-directory ))
-           "* %?"
-           :empty-lines 1)
+          ("j" "Journal Entry" entry (file+olp+datetree "journal.org")
+           "* %U %?")
           ("h" "Habit" entry (file "inbox.org")
            "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
           )
