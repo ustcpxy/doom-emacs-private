@@ -7,6 +7,12 @@
 ;; disable the default org-mode stuck projects agenda view
 (setq org-stuck-projects (quote ("" nil nil "")))
 
+; Allow setting single tags without the menu
+(setq org-fast-tag-selection-single-key (quote expert))
+
+; For tag searches ignore tasks with scheduled and deadline dates
+(setq org-agenda-tags-todo-honor-ignore-options t)
+
 ;;; customize org agenda view
 ;; Do not dim blocked tasks
 (setq org-agenda-dim-blocked-tasks nil)
@@ -21,11 +27,19 @@
                ((org-agenda-overriding-header "Habits")
                 (org-agenda-sorting-strategy
                  '(todo-state-down effort-up category-keep))))
-              (" " "Agenda"
+              ("n" "Next Agenda"
                ((agenda ""
                         ((org-agenda-span 'day)
                          (org-agenda-start-day nil)
                          (org-deadline-warning-days 3)))
+                (tags-todo "-CANCELLED/!NEXT"
+                           ((org-agenda-overriding-header "Next Tasks")
+                            (org-tags-match-list-sublevels t)
+                            (org-agenda-todo-ignore-with-date t)
+                            (org-agenda-sorting-strategy
+                             '(effort-up category-keep))))))
+              (" " "Block Agenda"
+               ((agenda "" nil)
                 (tags-todo "REFILE"
                       ((org-agenda-overriding-header "Tasks to Refile")
                        (org-tags-match-list-sublevels nil)))

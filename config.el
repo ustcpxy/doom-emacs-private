@@ -28,6 +28,7 @@
  :gnime "<f5>" #'org-refile
  :gnime "M-<f9>" #'org-capture-refile
  :gnime "M-<f8>" #'org-capture-kill
+ :gnime "M-<f12>" #'pop-to-org-agenda-with-next-actions
 
  :v "M-;" #'comment-dwim
  :gnime "M-;" #'comment-line
