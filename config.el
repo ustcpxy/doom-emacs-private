@@ -63,6 +63,10 @@
         :map counsel-ag-map
         "TAB"    #'ivy-call-and-recenter ; preview
         ))
+
+ (:after (evil-org evil-easymotion)
+  :map evil-org-mode-map
+  :m "t" #'org-todo)
  )
 
 (setq frame-title-format

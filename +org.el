@@ -104,20 +104,21 @@
                nil))))
 
 (after! org
-  (setq org-log-done t)
+  (setq org-log-done 'time)
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING" "READING"))))
+                (sequence "SOMEDAY(s)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
 
   ;; used for filtering block agenda view
   (setq org-todo-state-tags-triggers
         (quote (("CANCELLED" ("CANCELLED" . t))
                 ("WAITING" ("WAITING" . t))
                 ("HOLD" ("WAITING") ("HOLD" . t))
+                ("SOMEDAY" ("SOMEDAY" . t))
                 (done ("WAITING") ("HOLD"))
-                ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-                ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-                ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+                ("TODO" ("WAITING") ("CANCELLED") ("HOLD") ("SOMEDAY"))
+                ("NEXT" ("WAITING") ("CANCELLED") ("HOLD") ("SOMEDAY"))
+                ("DONE" ("WAITING") ("CANCELLED") ("HOLD") ("SOMEDAY")))))
 
   (setq org-agenda-files (quote ("~/pkms/gtd"
                                  "~/pkms/adva"
