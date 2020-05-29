@@ -7,10 +7,10 @@
 ;; disable the default org-mode stuck projects agenda view
 (setq org-stuck-projects (quote ("" nil nil "")))
 
-; Allow setting single tags without the menu
+;; Allow setting single tags without the menu
 (setq org-fast-tag-selection-single-key (quote expert))
 
-; For tag searches ignore tasks with scheduled and deadline dates
+;; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
 
 ;;; customize org agenda view
@@ -41,8 +41,8 @@
               (" " "Block Agenda"
                ((agenda "" nil)
                 (tags-todo "REFILE"
-                      ((org-agenda-overriding-header "Tasks to Refile")
-                       (org-tags-match-list-sublevels nil)))
+                           ((org-agenda-overriding-header "Tasks to Refile")
+                            (org-tags-match-list-sublevels nil)))
                 (tags-todo "-CANCELLED/!"
                            ((org-agenda-overriding-header "Stuck Projects")
                             (org-agenda-skip-function 'bh/skip-non-stuck-projects)
@@ -151,3 +151,18 @@
           )
   )
   )
+
+;; NEXT is only for tasks
+(defun bh/mark-next-parent-tasks-todo ()
+  "Visit each parent task and change NEXT states to TODO"
+  (let ((mystate (or (and (fboundp 'org-state)
+                          state)
+                     (nth 2 (org-heading-components)))))
+    (when mystate
+      (save-excursion
+        (while (org-up-heading-safe)
+          (when (member (nth 2 (org-heading-components)) (list "NEXT"))
+            (org-todo "TODO")))))))
+
+(add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
+(add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
