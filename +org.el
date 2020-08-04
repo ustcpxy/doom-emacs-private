@@ -3,6 +3,8 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/pkms/gtd/")
+(setq org-roam-directory "~/pkms/roam")
+(setq deft-directory "~/pkms/roam")
 
 ;; disable the default org-mode stuck projects agenda view
 (setq org-stuck-projects (quote ("" nil nil "")))
@@ -104,11 +106,11 @@
                nil))))
 
 (after! org
+  (add-to-list 'org-modules 'org-habit)
   (setq org-log-done 'time)
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
                 (sequence "SOMEDAY(s)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
-
   ;; used for filtering block agenda view
   (setq org-todo-state-tags-triggers
         (quote (("CANCELLED" ("CANCELLED" . t))
@@ -132,7 +134,7 @@
            "* Read %^{TITLE}\n\%U%^{AUTHOR}p\n%\\1\n%?"
            :empty-lines 1)
           ("n" "Notes" entry (file,(expand-file-name "inbox.org" org-directory ) )
-           "* %^{heading}\n%U\n\n%?")
+           "* %?  :NOTES:")
           ("c" "Calendar" entry (file+headline ,(expand-file-name "tasks.org" org-directory) "Tasks")
             "* TODO %?\nSCHEDULED: %^t\n:PROPERTIES:\n:CREATED: %U\n:END:\n"
             :empty-lines 1)
@@ -144,8 +146,10 @@
             :tree-type week)
            ("l" "org-protocol-capture" entry (file "inbox.org")
            "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-          ("j" "Journal Entry" entry (file+olp+datetree "journal.org")
-           "* %U %?")
+          ;; ("j" "Journal Entry" entry (file+olp+datetree "journal.org")
+          ;;  "* %U %?")
+           ("j" "Journal entry" entry (function org-journal-find-location)
+            "* %(format-time-string org-journal-time-format)%?")
           ("h" "Habit" entry (file "inbox.org")
            "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
           )
@@ -166,3 +170,18 @@
 
 (add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
 (add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
+
+(after! org-journal
+  (setq org-journal-date-prefix "#+title: ")
+  (setq org-journal-file-format "%Y-%m-%d.org")
+  (setq org-journal-dir "~/pkms/roam")
+  (setq org-journal-date-format "%A, %d %B %Y"))
+
+(defun org-journal-find-location ()
+  ;; Open today's journal, but specify a non-nil prefix argument in order to
+  ;; inhibit inserting the heading; org-capture will insert the heading.
+  (org-journal-new-entry t)
+  ;; Position point on the journal's top-level heading so that org-capture
+  ;; will add the new entry as a child entry.
+  (goto-char (point-min)))
+
