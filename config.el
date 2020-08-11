@@ -64,6 +64,11 @@
         "TAB"    #'ivy-call-and-recenter ; preview
         ))
 
+ (:when (featurep! :lang org +roam)
+       (:after evil-org
+        :map evil-org-mode-map
+        :i "M-[" #'org-roam-insert-immediate
+        ))
  (:after (evil-org evil-easymotion)
   :map evil-org-mode-map
   :m "t" #'org-todo)
