@@ -141,7 +141,7 @@
           ("o" "Inbox" entry (file+headline ,(expand-file-name "inbox.org" org-directory ) "Others")
            "* TODO %? \n:PROPERTIES:\n:CREATED: %U\n:END:"
            :empty-lines 1)
-           ("w" "Weekly Review" entry (file+olp+datetree ,(concat org-directory "reviews.org"))
+           ("w" "Weekly Review" entry (file+olp+datetree ,(concat org-directory "weekly-reviews.org"))
             (file ,(concat org-directory "templates/weekly_review.org"))
             :tree-type week)
            ("l" "org-protocol-capture" entry (file "inbox.org")
