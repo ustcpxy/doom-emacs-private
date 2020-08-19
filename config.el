@@ -281,3 +281,6 @@ packages.")
 (after! doom-modeline
   (setq doom-modeline-buffer-file-name-style 'buffer-name)
   )
+
+;; disabling org-roam buffer by default
+(setq +org-roam-open-buffer-on-find-file 'nil)
