@@ -277,3 +277,7 @@ packages.")
   (ansi-color-apply-on-region (point-min) (point-max)))
 (add-to-list 'auto-mode-alist '("\\.log\\'" . display-ansi-colors))
 
+
+(after! doom-modeline
+  (setq doom-modeline-buffer-file-name-style 'buffer-name)
+  )
