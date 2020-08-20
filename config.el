@@ -72,6 +72,11 @@
  (:after (evil-org evil-easymotion)
   :map evil-org-mode-map
   :m "t" #'org-todo)
+
+ ;; used for outside frame
+  (:after org-agenda
+        :map org-agenda-mode-map
+        :m "e" #'evil-quit)
  )
 
 (setq frame-title-format
