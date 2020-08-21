@@ -5,6 +5,7 @@
 (setq org-directory "~/pkms/gtd/")
 (setq org-roam-directory "~/pkms/roam")
 (setq deft-directory "~/pkms/roam")
+(setq notdeft-directories '("~/pkms/roam"))
 
 ;; disable the default org-mode stuck projects agenda view
 (setq org-stuck-projects (quote ("" nil nil "")))

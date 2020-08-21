@@ -289,3 +289,16 @@ packages.")
 
 ;; disabling org-roam buffer by default
 (setq +org-roam-open-buffer-on-find-file 'nil)
+
+;; enable notdeft
+(add-to-list 'load-path "~/github/notdeft")
+(add-to-list 'load-path "~/github/notdeft/extras")
+(load "notdeft-example")
+
+(add-to-list 'org-roam-capture-ref-templates
+             '("a" "Annotation" plain (function org-roam-capture--get-point)
+               "%U ${body}\n"
+               :file-name "${slug}"
+               :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_alias:\n"
+               :immediate-finish t
+               :unnarrowed t))
