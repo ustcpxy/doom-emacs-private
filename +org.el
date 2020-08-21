@@ -150,7 +150,7 @@
           ;; ("j" "Journal Entry" entry (file+olp+datetree "journal.org")
           ;;  "* %U %?")
            ("j" "Journal entry" entry (function org-journal-find-location)
-            "* %(format-time-string org-journal-time-format)%?")
+            "* %?")
           ("h" "Habit" entry (file "inbox.org")
            "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
           )
