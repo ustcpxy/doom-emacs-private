@@ -287,13 +287,14 @@ packages.")
   (setq doom-modeline-buffer-file-name-style 'buffer-name)
   )
 
-;; disabling org-roam buffer by default
-(setq +org-roam-open-buffer-on-find-file 'nil)
-
 ;; enable notdeft
 (add-to-list 'load-path "~/github/notdeft")
 (add-to-list 'load-path "~/github/notdeft/extras")
 (load "notdeft-example")
+
+(after! org-roam
+;; disabling org-roam buffer by default
+(setq +org-roam-open-buffer-on-find-file 'nil)
 
 (add-to-list 'org-roam-capture-ref-templates
              '("a" "Annotation" plain (function org-roam-capture--get-point)
@@ -302,3 +303,4 @@ packages.")
                :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_alias:\n"
                :immediate-finish t
                :unnarrowed t))
+  )
