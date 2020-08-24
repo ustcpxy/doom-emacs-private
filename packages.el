@@ -8,3 +8,4 @@
 ;; (package! log4j-mode)
 (package! logview)
 ;; (package! srefactor)
+(package! evil-snipe :disable t)
