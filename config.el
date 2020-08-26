@@ -71,7 +71,13 @@
         ))
  (:after (evil-org evil-easymotion)
   :map evil-org-mode-map
-  :m "t" #'org-todo)
+  :m "t" #'org-todo
+  :nm "s" #'org-schedule
+
+  :localleader
+  "x" #'org-toggle-checkbox
+  )
+
 
  ;; used for outside frame
   (:after org-agenda
@@ -298,7 +304,7 @@ packages.")
 
 (add-to-list 'org-roam-capture-ref-templates
              '("a" "Annotation" plain (function org-roam-capture--get-point)
-               "%U ${body}\n"
+               "- %U ${body}\n"
                :file-name "${slug}"
                :head "#+title: ${title}\n#+roam_key: ${ref}\n#+roam_alias:\n"
                :immediate-finish t
